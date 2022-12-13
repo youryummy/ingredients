@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import server from './server.js';
+import 'dotenv/config';
 
 // Node environment
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
@@ -8,11 +9,21 @@ const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
 const mongoPort = process.env.MONGO_PORT ?? 27017;
 const mongoHost = process.env.MONGO_HOST ?? 'localhost';
 const mongoDBName = process.env.MONGO_DBNAME ?? 'default-db';
-const mongoURL = `mongodb://${mongoHost}:${mongoPort}/${mongoDBName}`;
+const mongoURL = process.env.MONGO_URL ? process.env.MONGO_URL : `mongodb://${mongoHost}:${mongoPort}/${mongoDBName}`;
+
+const mongooseConnect = function () {
+  const db = mongoose.connection;
+  db.on("error", console.error.bind(console, "Connection error: "));
+  return mongoose.connect(mongoURL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    autoIndex: true,
+  });
+};
 
 mongoose.set('strictQuery', false);
 
-mongoose.connect(mongoURL).then(() => {
+mongooseConnect().then(() => {
   server.deploy(env).catch(err => { console.log(err); });
 });
 

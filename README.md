@@ -2,6 +2,7 @@
 
 Required env vars:
 * PORT: ExpressJS application port (default: 8080)
+* MONGO_URL: Mongo complete connection string
 * MONGO_HOST: Mongo database host (default: localhost)
 * MONGO_PORT: Mongo database port (default: 27017)
 * MONGO_DBNAME: Mongo database name (default: default-db)

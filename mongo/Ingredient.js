@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
+import { Schema, model} from "mongoose";
 
 const ingredientSchema = new Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    _id: Schema.Types.ObjectId,
     nombre: String,
     url: String,
     creado_por: String,
@@ -10,4 +10,4 @@ const ingredientSchema = new Schema({
     imagen_peq: String,
   });
 
-export default model('Ingredient', ingredientSchema, 'ingredient');
+export default model('Ingredient', ingredientSchema, 'ingredients');

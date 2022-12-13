@@ -26,9 +26,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ingredient"
+                type: object
         default:
           description: Unexpected error
           content:
@@ -55,6 +53,29 @@ paths:
               schema:
                 $ref: "#/components/schemas/error"
   /api/v1/ingredients/{id}:
+    get:
+      parameters:
+        - required: true
+          name: id
+          description: id of the ingredient to find
+          in: path
+          schema:
+            type: string
+      description: Returns an ingredient by its ingredients
+      operationId: findOne
+      responses:
+        200:
+          description: Ingredient in the database returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ingredient"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
     put:
       description: Update an ingredient based on its id
       operationId: updateIngredient
@@ -90,7 +111,7 @@ paths:
           description: id of the ingredient to delete
           in: path
           schema:
-            type: number
+            type: string
       responses:
         "204":
           description: Ingredient deleted successfully
@@ -104,11 +125,7 @@ components:
   schemas:
     ingredient:
       type: object
-      required:
-        - _id
       properties:
-        _id:
-          type: string
         creado_por:
           type: string
         imagen:
