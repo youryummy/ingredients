@@ -12,7 +12,12 @@ paths:
             name: page
             schema:
               type: integer
-            description: The number of the page to retrieve from database 
+            description: The number of the page to retrieve from database
+          - in: query
+            name: limit
+            schema:
+              type: integer
+            description: The amount of elements shown in the page 
           - in: query
             name: search
             schema:
@@ -145,3 +150,9 @@ components:
       properties:
         message:
           type: string
+  securitySchemes:
+    apikey:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-acl-config: { $ref: ./acl-config.yaml }

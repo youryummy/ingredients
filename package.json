@@ -9,14 +9,19 @@
     "scripts": {
         "prestart": "npm install --only=prod",
         "start": "node index.js",
-        "build": "docker build . -t ingredients-service:1.0.0 -t ingredients-service:latest"
+        "build": "docker build . -t ingredients-service:1.0.0 -t ingredients-service:latest",
+        "test:unit": "mocha --exit --recursive --timeout 5000 -r tests/setup.test.js tests/unit"
     },
     "dependencies": {
         "@oas-tools/core": "^3.0.0",
+        "chai": "^4.3.7",
+        "chai-http": "^4.3.0",
+        "dotenv": "^16.0.3",
         "express": "^4.18.0",
+        "mocha": "^10.2.0",
         "mongoose": "^6.8.0",
-        "dotenv": "^16.0.3"
-    },
-    "devDependencies": {
+        "opossum": "^7.0.1",
+        "recachegoose": "^9.1.0",
+        "sinon": "^15.0.1"
     }
 }
