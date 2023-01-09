@@ -10,7 +10,9 @@
         "prestart": "npm install --only=prod",
         "start": "node index.js",
         "build": "docker build . -t ingredients-service:1.0.0 -t ingredients-service:latest",
-        "test:unit": "mocha --exit --recursive --timeout 5000 -r tests/setup.test.js tests/unit"
+        "test:unit": "mocha --exit --recursive --timeout 5000 -r tests/setup.test.js tests/unit",
+        "test:integration": "mocha --exit --recursive --timeout 7000 -r tests/setup.test.js tests/integration",
+        "test": "npm run test:unit && npm run test:integration"
     },
     "dependencies": {
         "@oas-tools/core": "^3.0.0",
@@ -21,7 +23,9 @@
         "mocha": "^10.2.0",
         "mongoose": "^6.8.0",
         "opossum": "^7.0.1",
+        "proxyquire": "^2.1.3",
         "recachegoose": "^9.1.0",
-        "sinon": "^15.0.1"
+        "sinon": "^15.0.1",
+        "sinon-chai": "^3.7.0"
     }
 }

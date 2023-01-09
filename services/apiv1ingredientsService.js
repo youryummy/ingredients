@@ -1,4 +1,4 @@
-import Ingredient from "../mongo/Ingredient.js";
+import Ingredient from "../models/Ingredient.js";
 import { Types } from 'mongoose'
 import {logger} from "@oas-tools/commons";
 import { CircuitBreaker } from "../utils/circuitBreaker.js";
