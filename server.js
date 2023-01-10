@@ -9,13 +9,11 @@ const deploy = async (env) => {
     app.use(express.json({limit: '50mb'}));
     
     // Feature toggles
-    let config = {}
+    const config = {}
     if (env === "production") {
         config.middleware = { 
             validator: { requestValidation: false, responseValidation: false } // Done in gateway
         }
-    } else if (env === "test") {
-        logger.level = "off";
     }
 
     // Initialize OAS Tools

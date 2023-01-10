@@ -13,24 +13,24 @@ export async function find(_req, res) {
         let count;
         
         if (search !== undefined) { // Cuando se busca por nombre
-            result = await Ingredient.find({nombre: {$regex: search, $options: "i"}}).limit(limit * 1).skip((page - 1) * limit).exec()
+            result = await Ingredient.find({nombre: {$regex: search, $options: "i"}}).limit(Number(limit)).skip((page - 1) * limit).exec()
             count = await Ingredient.countDocuments({nombre: {$regex: search, $options: "i"}});
         } else { // Resto de casos
-            result = await Ingredient.find().cache(10).limit(limit * 1).skip((page - 1) * limit).exec();
+            result = await Ingredient.find().cache(10).limit(Number(limit)).skip((page - 1) * limit).exec();
             count = await Ingredient.count().cache(10)
         }
 
         res.send({
-            currentPage: parseInt(page),
+            currentPage: parseInt(page, 10),
             totalPages: Math.ceil(count / limit),
-            pageLimit: parseInt(limit),
+            pageLimit: parseInt(limit, 10),
             result
         })
 
     } catch(err) {
         logger.error(`Error while getting all ingredients: ${err.message}`);
         res.status(500).send({ message: "Unexpected error ocurred, please try again later" });
-    };
+    }
 }
 
 export function addIngredient(_req, res) {
