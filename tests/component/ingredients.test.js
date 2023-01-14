@@ -1,5 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import dotenv from "dotenv";
 
 chai.use(chaiHttp);
 chai.expect();
@@ -97,4 +98,5 @@ describe('Ingredients', () => {
       });
     });
   });
+
 });

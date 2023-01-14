@@ -1,11 +1,11 @@
 import { logger } from "@oas-tools/commons";
+import Ingredient from "../models/Ingredient.js";
+import server from '../server.js';
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import server from '../server.js';
-import Ingredient from "../models/Ingredient.js";
 
-logger.configure({ level: "off" });
 process.env.NODE_ENV = "test";
+logger.configure({ level: "off" });
 
 // Populate test db and cleanup after integration tests
 if (process.argv.includes("tests/component")) {

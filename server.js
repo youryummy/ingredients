@@ -14,18 +14,23 @@ const deploy = async (env) => {
         config.middleware = { 
             validator: { requestValidation: false, responseValidation: false } // Done in gateway
         }
+    } else if (env === "test") {
+        config.middleware = { validator: { strict: true }}
+        config.logger = {level: "off"};
     }
 
     // Initialize OAS Tools
     use(OASSwagger, {path: "/docs"});
     initialize(app, config).then(() => {
         http.createServer(app).listen(serverPort, () => {
-        console.log("\nApp running at http://localhost:" + serverPort);
-        console.log("________________________________________________________________");
-        if (config?.middleware?.swagger?.disable !== false) {
-            console.log('API docs (Swagger UI) available on http://localhost:' + serverPort + '/docs');
-            console.log("________________________________________________________________");
-        }
+            if (env !== "test") {
+                console.log("\nApp running at http://localhost:" + serverPort);
+                console.log("________________________________________________________________");
+                if (config?.middleware?.swagger?.disable !== false) {
+                    console.log('API docs (Swagger UI) available on http://localhost:' + serverPort + '/docs');
+                    console.log("________________________________________________________________");
+                }
+            }
         });
     });
 }
