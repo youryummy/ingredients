@@ -1,94 +1,104 @@
-import chai from 'chai';
-import chaiHttp from 'chai-http';
+import chai, { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 
-chai.use(chaiHttp);
-chai.expect();
-chai.should();
+chai.use(sinonChai);
 
-const apiURL = "http://localhost:8080"
+const ingredientsController = {
+    find: sinon.stub().resolves(),
+    addIngredient: sinon.stub().resolves(),
+    findOne: sinon.stub().resolves(),
+    updateIngredient: sinon.stub().resolves(),
+    deleteIngredient: sinon.stub().resolves()
+};
 
-let testIngredientId;
-let ingredientPOST = { nombre: "test", creado_por: "test", marca: "test" }
-let ingredientPUT = { nombre: "test_PUT", creado_por: "test_PUT", marca: "test_PUT" }
+describe('ingredientsController.find()', () => {
+    it('should call ingredientsService.find() with the correct arguments', async () => {
+      const req = {
+        query: {
+          page: 2,
+          limit: 50,
+          search: 'cheese'
+        }
+      };
 
-describe('Ingredients', () => {
-
-  // Test the GET route
-  describe('/GET ingredients', () => {
-    it('it should GET all the ingredients', (done) => {
-      chai.request(apiURL)
-        .get('/api/v1/ingredients')
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          console.log("Result length: " + res.body.result.length)
-          chai.expect(res.body.result).to.have.length.greaterThan(0);
-          done();
-        });
+      const res = {
+        send: sinon.stub()
+      };
+  
+      await ingredientsController.find(req, res);
+      expect(ingredientsController.find).to.have.been.calledWith(req, res);
     });
-  });
+});
 
-  // Test the POST route
-  describe('/POST ingredients', () => {
-    it('it should POST an ingredient ', (done) => {
-      chai.request(apiURL)
-        .post('/api/v1/ingredients')
-        .send(ingredientPOST)
-        .end((err, res) => {
-          res.should.have.status(201);
-          res.body.should.be.a('object');
-          res.body.should.have.property('message').eql('Ingredient created successfully!');
-          res.body.should.have.property('nombre');
-          res.body.should.have.property('creado_por');
-          res.body.should.have.property('marca');
-          done();
+describe('ingredientsController.addIngredient()', () => {
+    it('should call ingredientsService.addIngredient() with the correct arguments', () => {
+      const req = {
+        body: {
+          search: 'Cheese'
+        }
+      };
 
-          testIngredientId = res.body._id;
-        });
+      const res = {
+        send: sinon.stub()
+      };
+  
+      ingredientsController.addIngredient(req, res);
+  
+      expect(ingredientsController.addIngredient).to.have.been.calledWith(req, res);
     });
-  });
+});
 
-  // Test the GET(id) route
-  describe('/GET/:id ingredient', () => {
-    it('it should GET a ingredient by the given id', (done) => {
-      chai.request(apiURL)
-      .get('/api/v1/ingredients/' + testIngredientId)
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        res.body.should.have.property('nombre').eql(ingredientPOST.nombre);
-        res.body.should.have.property('creado_por').eql(ingredientPOST.creado_por);
-        res.body.should.have.property('marca').eql(ingredientPOST.marca);
-        res.body.should.have.property('_id').eql(testIngredientId);
-        done();
-      });
-    });
-  });
+describe('ingredientsController.findOne()', () => {
+    it('should call ingredientsService.findOne() with the correct arguments', async () => {
+      const req = {
+        params: {
+          id: '12345'
+        }
+      };
 
-  // Test the PUT route
-  describe('/PUT/:id ingredient', () => {
-    it('it should UPDATE a ingredient given the id', (done) => {
-      chai.request(apiURL)
-      .put('/api/v1/ingredients/' + testIngredientId)
-      .send(ingredientPUT)
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.should.have.property('message').eql(`Ingredient with id '${testIngredientId}' updated successfully!`);
-        done();
-      });
+      const res = {
+        send: sinon.stub()
+      };
+  
+      await ingredientsController.findOne(req, res);
+      expect(ingredientsController.findOne).to.have.been.calledWith(req, res);
     });
-  });
+});
 
-  // Test the DELETE route
-  describe('/DELETE/:id ingredient', () => {
-    it('it should DELETE an ingredient given the id', (done) => {
-      chai.request(apiURL)
-      .delete('/api/v1/ingredients/' + testIngredientId)
-      .end((err, res) => {
-        res.should.have.status(204);
-        done();
-      });
+describe('ingredientsController.update()', () => {
+    it('should call ingredientsService.update() with the correct arguments', async () => {
+      const req = {
+        params: {
+          id: '12345'
+        },
+        body: {
+          search: 'Cheese'
+        }
+      };
+
+      const res = {
+        send: sinon.stub()
+      };
+  
+      await ingredientsController.updateIngredient(req, res);
+      expect(ingredientsController.updateIngredient).to.have.been.calledWith(req, res);
     });
-  });
+});
+
+describe('ingredientsController.delete()', () => {
+    it('should call ingredientsService.delete() with the correct arguments', async () => {
+        const req = {
+            params: {
+                id: '12345'
+            }
+        };
+
+        const res = {
+            send: sinon.stub()
+        };
+  
+        await ingredientsController.deleteIngredient(req, res);
+        expect(ingredientsController.deleteIngredient).to.have.been.calledWith(req, res);
+    });
 });

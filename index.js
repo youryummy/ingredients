@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import recachegoose from "recachegoose"
 import server from './server.js';
 import 'dotenv/config';
 
@@ -21,10 +20,6 @@ const mongoURL = `${mongoProto}://` +
   `/${mongoDBName}`;
 
 const mongooseConnect = function () {
-
-  recachegoose(mongoose, {
-    engine: 'memory'
-  });
 
   const db = mongoose.connection;
   db.on("error", console.error.bind(console, "Connection error: "));
