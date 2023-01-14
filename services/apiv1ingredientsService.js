@@ -3,9 +3,9 @@ import { Types } from 'mongoose'
 import {logger} from "@oas-tools/commons";
 import { CircuitBreaker } from "../utils/circuitBreaker.js";
 import mongoose from "mongoose";
-import cachegoose from "cachegoose"
+import recachegoose from "recachegoose"
 
-cachegoose(mongoose, {});
+recachegoose(mongoose, {});
 
 
 export async function find(_req, res) {
