@@ -7,6 +7,8 @@ info:
 paths:
   /api/v1/ingredients:
     get:
+      security:
+        - apikey: []
       parameters:
           - in: query
             name: page
@@ -39,6 +41,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/error"
     post:
+      security:
+        - apikey: []
       description: Creates a new ingredient
       operationId: addIngredient
       requestBody:
@@ -59,6 +63,8 @@ paths:
                 $ref: "#/components/schemas/error"
   /api/v1/ingredients/{id}:
     get:
+      security:
+        - apikey: []
       parameters:
         - required: true
           name: id
@@ -82,6 +88,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/error"
     put:
+      security:
+        - apikey: []
       description: Update an ingredient based on its id
       operationId: updateIngredient
       parameters:
@@ -108,6 +116,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/error"
     delete:
+      security:
+        - apikey: []
       description: Deletes a single ingredient based on its id
       operationId: deleteIngredient
       parameters:

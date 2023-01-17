@@ -5,7 +5,7 @@ user:
     "delete:own": ["*"]
   api/v1/ingredients:
     "read:any": ["*"]
-    "create:own": ["*"]
+    "create:any": ["*"]
 admin:
   api/v1/ingredients:
     "read:any": ["*"]
