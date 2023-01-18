@@ -1,0 +1,17 @@
+build:
+  ingredients-service:
+    context: .
+
+deploy:
+  - helm upgrade --install ingredients-service k8s
+    --set global.node_env=${NODE_ENV}
+    --set global.jwt_secret=${JWT_SECRET}
+    --set global.jwt_issuer=${JWT_ISSUER}
+    --set global.namespaceOverride=${NAMESPACE}
+    --set ingredients-service.mongo_pwd=${MONGO_PWD}
+    --set ingredients-service.mongo_user=${MONGO_USER}
+    --set ingredients-service.mongo_host=${MONGO_HOST}
+    --set ingredients-service.mongo_port=${MONGO_PORT}
+    --set ingredients-service.mongo_proto=${MONGO_PROTO}
+    --set ingredients-service.mongo_dbname=${MONGO_DBNAME}
+    --set ingredients-service.image=${OKTETO_BUILD_INGREDIENTS_SERVICE_IMAGE}

@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Ingredients Service
+  description: YourYummy ingredients service
+
+paths:
+  /api/v1/ingredients:
+    get:
+      parameters:
+          - in: query
+            name: page
+            schema:
+              type: integer
+            description: The number of the page to retrieve from database
+          - in: query
+            name: limit
+            schema:
+              type: integer
+            description: The amount of elements shown in the page 
+          - in: query
+            name: search
+            schema:
+              type: string
+            description: Search by name of the ingredient
+          - in: query
+            name: created_by
+            schema:
+              type: string
+            description: Search by author of the ingredient
+      description: Returns all the ingredients
+      operationId: find
+      responses:
+        200:
+          description: Ingredients in the database returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+    post:
+      security:
+        - apikey: []
+      description: Creates a new ingredient
+      operationId: addIngredient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ingredient"
+        description: Ingredient to be created
+        required: true
+      responses:
+        201:
+          description: Ingredient created successfully
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+  /api/v1/ingredients/{id}:
+    get:
+      security:
+        - apikey: []
+      parameters:
+        - required: true
+          name: id
+          description: id of the ingredient to find
+          x-acl-binding: ingredientsIds
+          in: path
+          schema:
+            type: string
+      description: Returns an ingredient by its ingredients
+      operationId: findOne
+      responses:
+        200:
+          description: Ingredient in the database returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ingredient"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+    put:
+      security:
+        - apikey: []
+      description: Update an ingredient based on its id
+      operationId: updateIngredient
+      parameters:
+        - required: true
+          name: id
+          description: id of the ingredient to update
+          x-acl-binding: ingredientsIds
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ingredient"
+        description: Ingredient to be updated
+        required: true
+      responses:
+        "204":
+          description: Ingredient updated successfully
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+    delete:
+      security:
+        - apikey: []
+      description: Deletes a single ingredient based on its id
+      operationId: deleteIngredient
+      parameters:
+        - required: true
+          name: id
+          description: id of the ingredient to delete
+          x-acl-binding: ingredientsIds
+          in: path
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Ingredient deleted successfully
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+components:
+  schemas:
+    ingredient:
+      type: object
+      properties:
+        creado_por:
+          type: string
+        imagen:
+          type: string
+        imagen_peq:
+          type: string
+        marca:
+          type: string
+        nombre:
+          type: string
+        url:
+          type: string
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+  securitySchemes:
+    apikey:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-acl-config: { $ref: ./acl-config.yaml }
