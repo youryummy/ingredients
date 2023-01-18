@@ -7,8 +7,6 @@ info:
 paths:
   /api/v1/ingredients:
     get:
-      security:
-        - apikey: []
       parameters:
           - in: query
             name: page
@@ -25,6 +23,11 @@ paths:
             schema:
               type: string
             description: Search by name of the ingredient
+          - in: query
+            name: created_by
+            schema:
+              type: string
+            description: Search by author of the ingredient
       description: Returns all the ingredients
       operationId: find
       responses:
@@ -69,6 +72,7 @@ paths:
         - required: true
           name: id
           description: id of the ingredient to find
+          x-acl-binding: ingredientsIds
           in: path
           schema:
             type: string
@@ -96,6 +100,7 @@ paths:
         - required: true
           name: id
           description: id of the ingredient to update
+          x-acl-binding: ingredientsIds
           in: path
           schema:
             type: string
@@ -124,6 +129,7 @@ paths:
         - required: true
           name: id
           description: id of the ingredient to delete
+          x-acl-binding: ingredientsIds
           in: path
           schema:
             type: string
